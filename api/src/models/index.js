@@ -19,18 +19,6 @@ for (const modelDefiner of modelDefiners) {
 
 applyExtraSetup(sequelize);
 
-// const models = {
-//   User: sequelize.import('./user'),
-//   Message: sequelize.import('./snippet'),
-// };
-
-// Object.keys(models).forEach((key) => {
-//   if ('associate' in models[key]) {
-//     models[key].associate(models);
-//   }
-// });
-
 export {
   sequelize
 };
-// export default models;

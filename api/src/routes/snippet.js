@@ -2,47 +2,36 @@ import {
   Router
 } from 'express';
 
-import {
-  v4 as uuidv4
-} from 'uuid';
-
 const router = Router()
 
-router.get("/snippets", (req, res) => {
-  return res.send(Object.values(req.context.models.snippets));
+router.get('/', async (req, res) => {
+  const snippets = await req.context.models.snippet.findAll();
+  return res.send(snippets);
 });
 
-router.get("/snippets/:snippetId", (req, res) => {
-  return res.send(req.context.models.snippets[req.params.snippetId]);
-});
-
-router.post("/snippets", (req, res) => {
-  const id = uuidv4();
-  const snippet = {
-    id,
-    snippet: req.body.text,
-    userId: req.context.me.id
-  };
-  req.context.models.snippets[id] = snippet;
+router.get('/:snippetId', async (req, res) => {
+  const snippet = await req.context.models.snippet.findByPk(
+    req.params.snippetId,
+  );
   return res.send(snippet);
 });
 
-router.put("/snippets/:snippetId", (req, res) => {
-  const {
-    [req.params.snippetId]: snippet, ...updatedSnippets
-  } = snippets;
-  snippet.snippet = req.body.text;
-  updatedSnippets.push(snippet);
+router.post('/', async (req, res) => {
+  const message = await req.context.models.snippet.create({
+    text: req.body.text,
+    userId: req.context.me.id,
+  });
 
-  req.context.models.snippets = updatedSnippets;
   return res.send(snippet);
 });
 
-router.delete("/snippets/:snippetId", (req, res) => {
-  const {
-    [req.params.snippetId]: snippet, ...otherSnippets
-  } = req.context.models.snippets;
-  req.context.models.snippets = otherSnippets;
-  return res.send(snippet);
+router.delete('/:snippetId', async (req, res) => {
+  const result = await req.context.models.snippet.destroy({
+    where: {
+      id: req.params.snippetIs
+    },
+  });
+
+  return res.send(true);
 });
 export default router;

@@ -12,6 +12,8 @@ services:
     networks:
       - postgres
     restart: unless-stopped
+    logging:
+      driver: none
   postgres:
     image: 'postgres:latest'
     environment:

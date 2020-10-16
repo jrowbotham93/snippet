@@ -5,8 +5,12 @@ import {
 const router = Router()
 
 
-router.get('/session', (req, res) => {
-  return res.send(req.context.models.users[req.me.id]);
+
+router.get('/', async (req, res) => {
+  const user = await req.context.models.user.findByPk(
+    req.context.me.id,
+  );
+  return res.send(user);
 });
 
 export default router;

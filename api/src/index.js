@@ -39,8 +39,8 @@ sequelize.sync().then(async () => {
 
 
 const seedDatabase = async () => {
-  console.log(sequelize.models)
   await sequelize.models.user.create({
+
     username: 'jrowbotham93',
     email: '1234',
     password: 'password',
