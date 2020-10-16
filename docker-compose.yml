@@ -1,11 +1,26 @@
 version: '3.7'
 services:
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: postgres@postgres.org
+      PGADMIN_DEFAULT_PASSWORD: postgres
+    volumes:
+      - pgadmin:/root/.pgadmin
+    ports:
+      - '5050:80'
+    networks:
+      - postgres
+    restart: unless-stopped
   postgres:
     image: 'postgres:latest'
     environment:
       - POSTGRES_PASSWORD=password
     ports:
       - '5432:5432'
+    networks:
+      - postgres
+    restart: unless-stopped
   client:
     stdin_open: true
     build:
@@ -31,5 +46,15 @@ services:
       - PGDATABASE=postgres
       - POSTGRES_PASSWORD=password
       - PGPORT=5432
+    networks:
+      - postgres
     depends_on:
       - postgres
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:

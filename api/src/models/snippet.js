@@ -1,26 +1,22 @@
-const snippet = (sequelize, DataTypes) => {
-  const Snippet = sequelize.define('snippet', {
-    text: {
-      type: DataTypes.STRING,
+const {
+  DataTypes
+} = require('sequelize');
+
+module.exports = (sequelize) => {
+  sequelize.define('snippet', {
+    id: {
       allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER,
     },
     type: {
+      allowNull: true,
       type: DataTypes.STRING,
+    },
+    text: {
       allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    }
+      type: DataTypes.STRING,
+    },
   });
-
-  snippet.associate = models => {
-    snippet.belongsTo(models.User);
-  };
-
-  return Snippet;
 };
-
-export default snippet;
