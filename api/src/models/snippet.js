@@ -1,9 +1,5 @@
-const {
-  DataTypes
-} = require('sequelize');
-
-module.exports = (sequelize) => {
-  sequelize.define('snippet', {
+const snippet = (sequelize, DataTypes) => {
+  const Snippet = sequelize.define('snippet', {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -19,4 +15,8 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
     },
   });
+
+  return Snippet
 };
+
+export default snippet
